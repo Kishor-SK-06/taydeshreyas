@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Business Receipt Entry</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      padding: 40px 20px 80px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      color: #343a40;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      flex-grow: 1;
+    }
+    .form-card {
+      background: #ffffffdd;
+      border-radius: 15px;
+      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+      padding: 30px 35px;
+      backdrop-filter: saturate(180%) blur(10px);
+    }
+    /* Header */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+    header img {
+      height: 60px;
+      width: auto;
+      margin-right: 15px;
+      border-radius: 8px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+    }
+    header h1 {
+      font-weight: 900;
+      font-size: 2.5rem;
+      color: #fff;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+      margin: 0;
+    }
+    h2.text-center {
+      font-weight: 700;
+      color: #2575fc;
+      margin-bottom: 30px;
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+    h2.text-center::after {
+      content: "";
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: #6a11cb;
+      border-radius: 10px;
+    }
+    label.form-label {
+      font-weight: 600;
+      color: #202940;
+    }
+    .form-control {
+      border-radius: 8px;
+      box-shadow: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      font-size: 1rem;
+      border: 1.8px solid #ced4da;
+    }
+    .form-control:focus {
+      border-color: #6a11cb;
+      box-shadow: 0 0 8px rgba(106, 17, 203, 0.3);
+      outline: none;
+    }
+    .input-group > .form-control {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      border: none;
+      font-weight: 600;
+      border-radius: 0 0.375rem 0.375rem 0;
+      transition: background 0.4s ease, transform 0.2s ease;
+      box-shadow: 0 3px 8px rgba(37, 117, 252, 0.4);
+    }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #2575fc, #6a11cb);
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(37, 117, 252, 0.55);
+    }
+    .btn-success {
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      font-weight: 600;
+      padding-left: 40px;
+      padding-right: 40px;
+      border-radius: 50px;
+      transition: background 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 3px 8px rgba(33, 136, 56, 0.4);
+    }
+    .btn-success:hover {
+      background: linear-gradient(135deg, #218838, #28a745);
+      transform: scale(1.05);
+      box-shadow: 0 6px 14px rgba(33, 136, 56, 0.55);
+    }
+    .product-card {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 10px rgba(106, 17, 203, 0.1);
+      display: none;
+      transition: all 0.35s ease;
+    }
+    .product-card.show {
+      display: block;
+      animation: fadeIn 0.4s ease forwards;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-15px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    /* Footer */
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: #eee;
+      font-weight: 700;
+      font-size: 1.2rem;
+      padding: 15px 10px;
+      background-color: rgba(37, 117, 252, 0.8);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      user-select: none;
+    }
+    /* Responsive tweaks */
+    @media (max-width: 576px) {
+      body {
+        padding: 20px 10px 60px;
+      }
+      .form-card {
+        padding: 25px 18px;
+      }
+      .btn-success {
+        padding-left: 25px;
+        padding-right: 25px;
+      }
+      header h1 {
+        font-size: 1.8rem;
+      }
+      header img {
+        height: 45px;
+        margin-right: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://wallpaperaccess.com/full/3726850.jpg" alt="Ganpati Ji" />
+    <h1>Om Shri Ganeshaya Namah</h1>
+  </header>
+
+  <div class="container">
+    <div class="form-card">
+      <h2 class="text-center mb-4">Business Receipt Entry</h2>
+      <form id="receiptForm">
+        <!-- Customer Details -->
+        <div class="mb-3">
+          <label class="form-label">Customer Name</label>
+          <input type="text" class="form-control" name="customerName" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Address</label>
+          <textarea class="form-control" name="address" required></textarea>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Shipment Date</label>
+            <input type="date" class="form-control" name="shipmentDate" required />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Delivery Date</label>
+            <input type="date" class="form-control" name="deliveryDate" />
+          </div>
+        </div>
+        <!-- Products -->
+        <div class="mb-3">
+          <label class="form-label">How many products?</label>
+          <div class="input-group">
+            <input type="number" id="productCount" class="form-control" min="1" max="10" value="1" required />
+            <button type="button" class="btn btn-primary" id="generateProducts">Generate</button>
+          </div>
+        </div>
+        <div id="productsContainer"></div>
+        <!-- Transport & Notes -->
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Transport Charges</label>
+            <input type="number" class="form-control" name="transport" />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Notes</label>
+            <textarea class="form-control" name="notes"></textarea>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Total Amount</label>
+                <input type="number" class="form-control" name="totalAmount" id="totalAmount" readonly />
+            </div>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-success px-4">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    Gift for Shreyas
+  </footer>
+
+  <script>
+  // Generate dynamic product fields
+  $("#generateProducts").on("click", function () {
+    let count = $("#productCount").val();
+    let container = $("#productsContainer");
+    container.empty();
+    for (let i = 1; i <= count; i++) {
+      let card = $(`
+        <div class="product-card show">
+          <h5>Product ${i}</h5>
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              <label class="form-label">Product Name</label>
+              <input type="text" class="form-control" name="productName" required />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="form-label">Quantity</label>
+              <input type="number" class="form-control" name="quantity" required />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="form-label">Rate</label>
+              <input type="number" step="0.01" class="form-control" name="rate" required />
+            </div>
+          </div>
+        </div>
+      `);
+      container.append(card);
+    }
+    calculateTotal(); // recalc total on new products
+  });
+
+  // Calculate total amount including products and transport
+  function calculateTotal() {
+    let total = 0;
+    $("input[name='quantity']").each(function (index) {
+      let qty = parseFloat($(this).val()) || 0;
+      let rate = parseFloat($("input[name='rate']").eq(index).val()) || 0;
+      total += qty * rate;
+    });
+    let transport = parseFloat($("input[name='transport']").val()) || 0;
+    total += transport;
+    $("#totalAmount").val(total.toFixed(2));
+  }
+
+  // Recalculate total when quantity, rate or transport changes
+  $(document).on("input", "input[name='quantity'], input[name='rate'], input[name='transport']", calculateTotal);
+
+  // Submit form handler
+  $("#receiptForm").on("submit", function (e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    let products = [];
+    let quantities = [];
+    let rates = [];
+    $("input[name='productName']").each(function () {
+      products.push($(this).val());
+    });
+    $("input[name='quantity']").each(function () {
+      quantities.push($(this).val());
+    });
+    $("input[name='rate']").each(function () {
+      rates.push($(this).val());
+    });
+    let data = {
+      customerName: formData.get("customerName"),
+      address: formData.get("address"),
+      shipmentDate: formData.get("shipmentDate"),
+      deliveryDate: formData.get("deliveryDate"),
+      products: products,
+      quantities: quantities,
+      rates: rates,
+      transport: formData.get("transport"),
+      notes: formData.get("notes"),
+      totalAmount: formData.get("totalAmount")
+    };
+    fetch("YOUR_WEB_APP_URL", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(async (res) => {
+  const text = await res.text(); 
+  try {
+    return JSON.parse(text); 
+  } catch {
+    console.log("Server returned HTML instead of JSON:", text);
+    return { status: "error", message: "No valid backend response" };
+  }
+})
+
+      .then((msg) => {
+        if (msg.status === "success") {
+          alert("Form submitted successfully!");
+          if (msg.pdfUrl) {
+            window.open(msg.pdfUrl, "_blank"); // auto open PDF in new tab if URL provided
+          }
+          $("#receiptForm")[0].reset();
+          $("#productsContainer").empty();
+          $("#totalAmount").val("");
+        } else {
+          alert("Error: " + msg.message);
+        }
+      })
+      .catch((err) => alert("Error: " + err));
+  });
+  </script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
